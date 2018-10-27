@@ -5,24 +5,13 @@ import { values } from 'lodash/fp';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 
-import * as sampleActions from 'sample/sample.actions';
+import * as postsActions from 'actions/posts.actions';
 import { isLoadingSelector } from 'selectors/network.selectors';
 
 import type { State } from 'types/redux.types';
-import type { SampleState } from 'sample/sample.reducer';
+import type { PostsState } from 'reducers/posts.reducer';
 import type { MapStateToProps } from 'react-redux';
-import type { PostsMap, Post } from 'sample/sample.types';
-
-import 'sample/sample-replace-reducer';
-
-/*
-* This is done to avoid contaminating the original code with the sample reducer's code
-* Do not use this pattern normally
-*/
-
-type StateWithSample = State & {
-  sample: SampleState
-};
+import type { PostsMap, Post } from 'types/posts.types';
 
 type ConnectedProps = {
   posts: PostsMap,
@@ -33,9 +22,9 @@ type ConnectedProps = {
 type OwnProps = {};
 
 /* 
-* Sample component pulling data from server on mount
+* Posts component pulling data from server on mount
 */
-export class Sample extends React.PureComponent<ConnectedProps & OwnProps> {
+export class Posts extends React.PureComponent<ConnectedProps & OwnProps> {
   componentDidMount() {
     this.refresh();
   }
@@ -66,8 +55,9 @@ export class Sample extends React.PureComponent<ConnectedProps & OwnProps> {
           <FormattedMessage id="homepage.title" />
         </h1>
         <h3>
-          To get started, search your project for // TODO<br />
-          This is a sample component that uses a sample action + reducer, it
+          To get started, search your project for // TODO
+          <br />
+          This is a Posts component that uses a Posts action + reducer, it
           fetches posts from a remote server and displays them
         </h3>
         <img
@@ -102,13 +92,13 @@ export const StyledPost = styled.div`
   margin: 10px;
 `;
 
-const mapStateToProps: MapStateToProps<StateWithSample, OwnProps, {}> = (
-  state: StateWithSample
+const mapStateToProps: MapStateToProps<State, OwnProps, {}> = (
+  state: State
 ) => ({
-  posts: state.sample.posts,
-  isLoading: isLoadingSelector(state, sampleActions.POSTS_LABEL)
+  posts: state.posts.data,
+  isLoading: isLoadingSelector(state, postsActions.POSTS_LABEL)
 });
 
 export default connect(mapStateToProps, {
-  fetchPosts: sampleActions.fetchPosts
-})(Sample);
+  fetchPosts: postsActions.fetchPosts
+})(Posts);

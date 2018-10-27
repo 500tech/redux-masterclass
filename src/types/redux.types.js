@@ -1,10 +1,11 @@
 // @flow
 import type { LocalizationState } from 'reducers/localization.reducer';
 import type { NetworkState } from 'reducers/network.reducer';
+import type { PostsState } from 'reducers/posts.reducer';
 import type { NetworkAction } from 'actions/network.actions';
 import type { LocalizationAction } from 'actions/localization.actions';
 import type { ApiAction } from 'actions/api.actions';
-import type { SampleAction } from '../sample/sample.actions'; // TODO: remove sample action
+import type { PostsAction } from 'actions/posts.actions';
 
 export type BaseAction<PayloadType = any> = {|
   +type: string,
@@ -20,12 +21,13 @@ export type BaseActionWithMeta<PayloadType = any, MetaType = any> = {|
 export type Action =
   | NetworkAction
   | LocalizationAction // TODO: remove if not needed
-  | SampleAction // TODO: remove
+  | PostsAction
   | ApiAction;
 
 export type State = {
   network: NetworkState,
-  localization: LocalizationState // TODO: remove if no localization
+  localization: LocalizationState, // TODO: remove if no localization
+  posts: PostsState
 };
 
 export type Dispatch = (action: Action) => any;

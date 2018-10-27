@@ -14,7 +14,7 @@ import theme from 'constants/themes.constants';
 
 import Localization from 'components/localization'; // TODO: remove if no localization
 import Layout from 'components/layout/layout';
-import Sample from 'sample/sample'; // TODO: replace this with actual component
+import Posts from 'components/posts';
 
 class App extends React.Component<{||}> {
   render() {
@@ -24,11 +24,11 @@ class App extends React.Component<{||}> {
           <ThemeProvider theme={theme}>
             <Router history={history}>
               <Layout>
-                <Route exact path="/" name="sample" component={Sample} />
+                <Route exact path="/" name="posts" component={Posts} />
                 <Route
                   path="/lazy"
                   name="lazy"
-                  component={lazyLoad(() => import('sample/lazy'))}
+                  component={lazyLoad(() => import('components/lazy'))}
                 />
               </Layout>
             </Router>

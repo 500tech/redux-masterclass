@@ -1,6 +1,5 @@
 import Loadable from 'react-loadable';
-// TODO: change to real loading component
-import Loading from 'sample/loading';
+import Loading from 'components/loading';
 
 const lazyLoad = loader =>
   Loadable({

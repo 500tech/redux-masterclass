@@ -1,5 +1,5 @@
 // @flow
-import { get, castArray, compact } from 'lodash/fp';
+import { get, castArray, compact, keyBy } from 'lodash/fp';
 import urljoin from 'url-join';
 
 import apiUtils from 'utils/api.utils';
@@ -24,7 +24,7 @@ const apiMiddleware: Middleware = ({ dispatch, getState }) => {
     }
 
     const { payload } = ((action: any): ApiAction);
-    const { path, baseUrl, onSuccess, onError } = payload;
+    const { path, baseUrl, key = null, onSuccess, onError } = payload;
     const { networkLabel, data, method = 'GET' } = payload;
     const headers = {};
     const requestUrl = urljoin(baseUrl || BASE_URL, path);
@@ -40,6 +40,8 @@ const apiMiddleware: Middleware = ({ dispatch, getState }) => {
     apiUtils
       .request({ method, url: requestUrl, data, headers })
       .then(({ body }) => {
+        const transformed = key ? keyBy(key, body) : body;
+
         if (onSuccess) {
           dispatchActions(onSuccess(body));
         }

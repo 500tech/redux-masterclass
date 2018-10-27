@@ -17,6 +17,7 @@ type ApiActionPayload = {|
   +method: HttpMethod,
   +path: string,
   +data?: {},
+  key?: string,
   baseUrl?: string,
   +onSuccess?: (data: any) => Action | Action[],
   +onError?: (data: any) => Action | Action[]

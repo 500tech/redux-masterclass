@@ -9,7 +9,7 @@ import App from 'components/app';
 // import registerServiceWorker from './register-service-worker';
 
 // TODO: change to app name
-Mimic.setAppName('MyApp');
+// Mimic.setAppName('MyApp');
 
 if (process.env.NODE_ENV === 'development') {
   require('components/debug/debug-menu');

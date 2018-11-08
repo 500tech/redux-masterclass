@@ -210,3 +210,14 @@ label {
     transform: rotate(360deg);
   }
 }
+
+.loading {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  height: 50px;
+  width: 50px;
+  background-image: url(/spinner.gif);
+  background-size: contain;
+  background-repeat: no-repeat;
+}

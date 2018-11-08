@@ -4,6 +4,11 @@ import store from 'store';
 
 import { RESTORE_LOCAL_STORAGE_KEY } from 'constants/restore.constants';
 
+const StyledRestorer = styled.div`
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.5);
+`;
+
 const RestoreButton = styled.button`
   width: 8em;
   padding: 2px 5px;
@@ -28,12 +33,16 @@ const ClearButton = styled(RestoreButton)`
   opacity: ${({ disabled }) => (disabled ? 0.1 : 0.9)};
   &:hover {
     opacity: ${({ disabled }) => (disabled ? 0.5 : 0.9)};
+    background: linear-gradient(to top, #d04e4d, #ff605e);
   }
 `;
 
 const SaveButton = styled(RestoreButton)`
   background: linear-gradient(to top, #583289, #7844bb);
   &:active {
+    background: linear-gradient(to top, #7844bb, #583289);
+  }
+  &:hover {
     background: linear-gradient(to top, #7844bb, #583289);
   }
 `;
@@ -71,12 +80,12 @@ class StateRestorer extends React.Component<ConnectedProps, {}> {
 
   render() {
     return (
-      <React.Fragment>
+      <StyledRestorer>
+        <SaveButton onClick={this.save}>Save State</SaveButton>
         <ClearButton disabled={!this.state.clearable} onClick={this.clear}>
           Clear State
         </ClearButton>
-        <SaveButton onClick={this.save}>Save State</SaveButton>
-      </React.Fragment>
+      </StyledRestorer>
     );
   }
 }

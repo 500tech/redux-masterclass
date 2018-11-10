@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { selectTotalCount } from 'selectors/cart.selectors';
 
 class ShoppingBag extends Component {
   handleClick = () => this.props.toggleCart();
@@ -15,4 +17,6 @@ class ShoppingBag extends Component {
   }
 }
 
-export default ShoppingBag;
+export default connect(state => ({
+  count: selectTotalCount(state)
+}))(ShoppingBag);

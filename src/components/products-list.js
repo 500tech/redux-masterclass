@@ -21,6 +21,17 @@ class ProductsList extends Component {
       </div>
     );
   };
+  renderDummy = () =>
+    new Array(4).fill().map((_, i) => (
+      <div className="product" key={i}>
+        <div className="product-details">
+          <h1>..........</h1>
+          <img src="/placeholder.png" width={200} />
+        </div>
+        <button>...</button>
+      </div>
+    ));
+
   render() {
     const { filteredItems = [] } = this.props;
     return (

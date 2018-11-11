@@ -16,7 +16,7 @@ const Home = ({ isCartOpen, setIsCartOpen, isAnyLoading }) => {
     <div className="App">
       {isAnyLoading ? <div className="loading" /> : null}
       <header className="App-header">
-        <h1 className="App-title">MobX Shopping Cart Example</h1>
+        <h1 className="App-title">Redux Shopping Cart Example</h1>
         <ShoppingBag toggleCart={toggleCart} />
       </header>
       <div className="main-page">

@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 import { set, keyBy } from 'lodash/fp';
 import { SET_PRODUCTS } from 'actions/products.actions';
 
-const initialState = [];
+const initialState = null;
 
 const productsReducer = handleActions(
   {

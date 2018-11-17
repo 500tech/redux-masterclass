@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { MyProvider } from 'hooks/redux.hooks';
 
 import store from 'store';
 import theme from 'constants/themes.constants';
@@ -13,9 +14,11 @@ class App extends React.Component<{}> {
   render() {
     return (
       <Provider store={store}>
-        <Localization>
-          <Home />
-        </Localization>
+        <MyProvider store={store}>
+          <Localization>
+            <Home />
+          </Localization>
+        </MyProvider>
       </Provider>
     );
   }

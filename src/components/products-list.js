@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { get } from 'lodash/fp';
+import React, { Component, memo } from 'react';
 import { useSelector, useActions } from 'hooks/redux.hooks';
 import { useOnMount } from 'hooks/lifecycle.hooks';
 import { useIsLoadingSelector } from 'selectors/network.selectors';
@@ -8,9 +7,10 @@ import * as productsActions from 'actions/products.actions';
 import * as cartActions from 'actions/cart.actions';
 import { useFilteredProductsSelector } from 'selectors/products.selectors';
 
-const ProductsList = () => {
+const ProductsList = memo(() => {
+  console.log('render');
   const filteredItems = useFilteredProductsSelector();
-  const filter = useSelector(get('ui.filter'));
+  const filter = useSelector('ui.filter');
   const isLoading = useIsLoadingSelector('products');
 
   const [addToCart, fetchProducts, setFilter, setIsCartOpen] = useActions(
@@ -70,6 +70,6 @@ const ProductsList = () => {
       </div>
     </div>
   );
-};
+});
 
 export default ProductsList;

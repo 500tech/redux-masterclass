@@ -4,17 +4,37 @@ import { connect } from 'react-redux';
 import ShoppingBag from 'components/shopping-bag';
 import ProductsList from 'components/products-list';
 import ShoppingCart from 'components/shopping-cart';
-import { setIsCartOpen } from 'actions/ui.actions';
-import { selectIsAnyLoading } from 'selectors/network.selectors';
+import * as uiActions from 'actions/ui.actions';
+import { useIsAnyLoadingSelector } from 'selectors/network.selectors';
+import { useLocation } from 'hooks/location.hooks';
+import { useOnMount } from 'hooks/lifecycle.hooks';
+import { useSelector, useActions } from 'hooks/redux.hooks';
 
-const Home = ({ isCartOpen, setIsCartOpen, isAnyLoading }) => {
+const Home = () => {
+  const [location, getLocation] = useLocation();
+  useOnMount(getLocation);
+  const isAnyLoading = useIsAnyLoadingSelector();
+  const isCartOpen = useSelector('ui.isCartOpen');
+  const [setIsCartOpen] = useActions(uiActions.setIsCartOpen);
+
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
 
+  const getMessage = () => {
+    if (!location) {
+      return null;
+    }
+    const { loading, error, position } = location;
+    if (loading) {
+      return 'loading location';
+    }
+    return error || `${position.coords.latitude}, ${position.coords.longitude}`;
+  };
+
   return (
     <div className="App">
-      {isAnyLoading ? <div className="loading" /> : null}
+      {getMessage()}
       <header className="App-header">
         <h1 className="App-title">Redux Shopping Cart Example</h1>
         <ShoppingBag toggleCart={toggleCart} />
@@ -27,12 +47,4 @@ const Home = ({ isCartOpen, setIsCartOpen, isAnyLoading }) => {
   );
 };
 
-export default connect(
-  state => ({
-    isCartOpen: state.ui.isCartOpen,
-    isAnyLoading: selectIsAnyLoading(state)
-  }),
-  {
-    setIsCartOpen
-  }
-)(Home);
+export default Home;

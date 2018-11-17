@@ -5,8 +5,8 @@ import { createSelectorHook } from 'hooks/redux.hooks';
 export const selectFilteredProducts = state => {
   console.log('selector');
 
-  const products = get('products', state);
-  const filter = get('ui.filter', state);
+  const products = state.products;
+  const filter = state.ui.filter;
 
   return products
     ? values(products).filter(product =>

@@ -1,8 +1,8 @@
 // @flow
-import * as React from 'react';
+import React, { Node, useEffect } from 'react';
 import forEach from 'lodash/forEach';
-import { connect } from 'react-redux';
 import { IntlProvider, addLocaleData } from 'react-intl';
+import { useSelector, useActions } from 'hooks/redux.hooks';
 import moment from 'moment';
 
 import store from 'store';
@@ -10,7 +10,6 @@ import store from 'store';
 import locales from 'constants/locales';
 
 import type { State } from 'types/redux.types';
-import type { MapStateToProps } from 'react-redux';
 
 forEach(locales, (locale, key) =>
   moment.defineLocale(key, locale.dateTimeFormat)
@@ -25,42 +24,28 @@ forEach(locales, (value, key) => {
   });
 });
 
-type ConnectedProps = {
-  locale: string
-};
-
 type OwnProps = {
-  children: React.Node
+  children: Node
 };
 
-export const Localization = ({
-  locale,
-  children
-}: ConnectedProps & OwnProps) => (
-  <IntlProvider
-    locale={locale}
-    key={locale}
-    messages={locales[locale].translations}>
-    {children}
-  </IntlProvider>
-);
+export const Localization = ({ children }: OwnProps) => {
+  const locale: string = useSelector('localization.locale');
 
-const mapStateToProps: MapStateToProps<State, OwnProps, {}> = ({
-  localization
-}: State) => ({
-  locale: localization.locale
-});
+  useEffect(
+    () => {
+      moment.locale(locale);
+    },
+    [locale]
+  );
 
-let currentLocale = store.getState().localization.locale;
+  return (
+    <IntlProvider
+      locale={locale}
+      key={locale}
+      messages={locales[locale].translations}>
+      {children}
+    </IntlProvider>
+  );
+};
 
-moment.locale(currentLocale);
-store.subscribe(() => {
-  const newLocale = store.getState().localization.locale;
-
-  if (newLocale !== currentLocale) {
-    currentLocale = newLocale;
-    moment.locale(currentLocale);
-  }
-});
-
-export default connect(mapStateToProps, {})(Localization);
+export default Localization;

@@ -1,14 +1,15 @@
 import { get, values, sumBy, set, flow, size } from 'lodash/fp';
 import { createSelector } from 'reselect';
+import { createSelectorHook } from 'hooks/redux.hooks';
 
-export const selectCartProducts = createSelector(
+const selectCartProducts = createSelector(
   get('products'),
   get('cart'),
   (products, cart) =>
     Object.keys(cart).reduce((result, id) => set(id, products[id], result), {})
 );
 
-export const selectTotalPrice = createSelector(
+const selectTotalPrice = createSelector(
   get('products'),
   get('cart'),
   (products, cart) =>
@@ -18,4 +19,8 @@ export const selectTotalPrice = createSelector(
     ])(cart)
 );
 
-export const selectTotalCount = state => size(state.cart);
+const selectTotalCount = state => size(state.cart);
+
+export const useCartProductsSelector = createSelectorHook(selectCartProducts);
+export const useTotalPriceSelector = createSelectorHook(selectTotalPrice);
+export const useTotalCountSelector = createSelectorHook(selectTotalCount);

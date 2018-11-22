@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { values } from 'lodash/fp';
-import { selectCartProducts, selectTotalPrice } from 'selectors/cart.selectors';
-import { addToCart, removeFromCart } from 'actions/cart.actions';
+import {
+  useCartProductsSelector,
+  useTotalPriceSelector
+} from 'selectors/cart.selectors';
+import { useSelector, useActions } from 'hooks/redux.hooks';
+import * as cartActions from 'actions/cart.actions';
 
-class ShoppingCart extends Component {
-  toggleCart = () => this.props.toggleCart();
+const ShoppingCart = ({ isCartOpen, toggleCart }) => {
+  const cart = useSelector('cart');
+  const itemsArray = values(cart);
+  const products = useCartProductsSelector();
+  const totalPrice = useTotalPriceSelector();
 
-  renderItem = item => {
-    const product = this.props.products[item.productId];
+  const [addToCart, removeFromCart] = useActions(
+    cartActions.addToCart,
+    cartActions.removeFromCart
+  );
+
+  const renderItem = item => {
+    const product = products[item.productId];
     const totalPrice = item.quantity * product.price;
 
     return (
@@ -24,54 +35,29 @@ class ShoppingCart extends Component {
           </div>
         </div>
         <div className="cart-item-quantity">
-          <button onClick={() => this.props.addToCart(item.productId)}>
-            +
-          </button>
+          <button onClick={() => addToCart(item.productId)}>+</button>
           <span>{item.quantity}</span>
-          <button onClick={() => this.props.removeFromCart(item.productId, 1)}>
-            -
-          </button>
+          <button onClick={() => removeFromCart(item.productId, 1)}>-</button>
         </div>
         <button
           className="cart-item-remove"
-          onClick={() =>
-            this.props.removeFromCart(item.productId, item.quantity)
-          }>
+          onClick={() => removeFromCart(item.productId, item.quantity)}>
           X
         </button>
       </div>
     );
   };
 
-  renderEmpty = () => (
+  const renderEmpty = () => (
     <div className="cart-empty">Nothing in your cart. Go shopping</div>
   );
 
-  render() {
-    const { isCartOpen } = this.props;
-    const { cart, totalPrice } = this.props;
-    const itemsArray = values(cart);
+  return (
+    <div className={`shopping-cart ${isCartOpen ? 'shopping-cart-open' : ''}`}>
+      {itemsArray.length ? itemsArray.map(renderItem) : renderEmpty()}
+      <div className="cart-total">Total: ${totalPrice}</div>
+    </div>
+  );
+};
 
-    return (
-      <div
-        className={`shopping-cart ${isCartOpen ? 'shopping-cart-open' : ''}`}>
-        {itemsArray.length
-          ? itemsArray.map(this.renderItem)
-          : this.renderEmpty()}
-        <div className="cart-total">Total: ${totalPrice}</div>
-      </div>
-    );
-  }
-}
-
-export default connect(
-  state => ({
-    cart: state.cart,
-    products: selectCartProducts(state),
-    totalPrice: selectTotalPrice(state)
-  }),
-  {
-    addToCart,
-    removeFromCart
-  }
-)(ShoppingCart);
+export default ShoppingCart;

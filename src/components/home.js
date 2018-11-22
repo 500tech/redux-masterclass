@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect, useContext } from 'react';
 import { get } from 'lodash/fp';
-import { connect } from 'react-redux';
 import ShoppingBag from 'components/shopping-bag';
 import ProductsList from 'components/products-list';
 import ShoppingCart from 'components/shopping-cart';
@@ -39,6 +38,7 @@ const Home = () => {
         <h1 className="App-title">Redux Shopping Cart Example</h1>
         <ShoppingBag toggleCart={toggleCart} />
       </header>
+      {isAnyLoading ? <div className="loading" /> : null}
       <div className="main-page">
         <ProductsList />
         <ShoppingCart isCartOpen={isCartOpen} />

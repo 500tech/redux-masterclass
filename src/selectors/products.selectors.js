@@ -3,8 +3,6 @@ import { createSelector } from 'reselect';
 import { createSelectorHook } from 'hooks/redux.hooks';
 
 export const selectFilteredProducts = state => {
-  console.log('selector');
-
   const products = state.products;
   const filter = state.ui.filter;
 

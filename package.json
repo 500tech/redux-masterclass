@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@500tech/react-scripts": "^1",
+    "fast-memoize": "2.5.1",
     "history": "4.7.2",
     "http-server": "0.11.1",
     "lodash": "4.17.5",
@@ -16,7 +17,6 @@
     "react-dom": "16.7.0-alpha.0",
     "react-intl": "2.4.0",
     "react-loadable": "5.3.1",
-    "react-redux": "6.0.0-beta.2",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
     "redux": "3.7.2",

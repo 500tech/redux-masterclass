@@ -2,12 +2,14 @@ import React from 'react';
 import { useLocation } from 'hooks/location.hooks';
 import { useOnMount } from 'hooks/lifecycle.hooks';
 import { useFormField } from 'hooks/form.hooks';
+import Toggle, { useToggleState } from './toggle';
 
 const Home = () => {
   const [location, getLocation] = useLocation();
   useOnMount(getLocation);
   const emailField = useFormField('user.email');
   const passwordField = useFormField('user.password');
+  const toggleState = useToggleState(true);
 
   return (
     <div className="App">
@@ -16,24 +18,26 @@ const Home = () => {
         <h1 className="App-title">Redux Hooks Example</h1>
       </header>
       <div className="main-page">
-        <form>
-          <label>
-            Email
-            <input
-              {...emailField}
-              placeholder="Your email address"
-              type="email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              {...passwordField}
-              placeholder="Your password"
-              type="password"
-            />
-          </label>
-        </form>
+        <Toggle title="Form" {...toggleState}>
+          <form>
+            <label>
+              Email
+              <input
+                {...emailField}
+                placeholder="Your email address"
+                type="email"
+              />
+            </label>
+            <label>
+              Password
+              <input
+                {...passwordField}
+                placeholder="Your password"
+                type="password"
+              />
+            </label>
+          </form>
+        </Toggle>
       </div>
     </div>
   );
